@@ -2,8 +2,10 @@ const router = require('express').Router();
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const jwtGenerator = require('../utils/jwtGenerator');
+const validateInfo = require('../middleware/validateInfo');
+const authorization = require('../middleware/authorization');
 
-router.post('/register', async (req, res) => {
+router.post('/register', validateInfo, async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
@@ -13,7 +15,7 @@ router.post('/register', async (req, res) => {
             WHERE email = $1;
         `, [email]);
 
-        if (user.rows.length !== 0) return res.status(401).send('User already exists');
+        if (user.rows.length !== 0) return res.status(401).json('User already exists');
 
 
         const saltRound = 10;
@@ -35,7 +37,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', validateInfo, async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -45,13 +47,22 @@ router.post('/login', async (req, res) => {
             WHERE email = $1;
         `, [email]);
 
-        if (user.rows.length === 0) return res.status(401).send('Password or email is incorrect');
+        if (user.rows.length === 0) return res.status(401).json('Password or email is incorrect');
 
         const validPassword = await bcrypt.compare(password, user.rows[0].password);
         if (!validPassword) return res.status(401).json('Password or email is incorrect');
 
         const token = jwtGenerator(user.rows[0].id);
         res.json({ token });
+    } catch (err) {
+        console.log(err);
+        res.status(500).send('Server error');
+    }
+});
+
+router.get('/is-authenticated', authorization, async (req, res) => {
+    try {
+        res.json('true');
     } catch (err) {
         console.log(err);
         res.status(500).send('Server error');
