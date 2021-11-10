@@ -1,0 +1,32 @@
+.login,
+.register {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10vh;
+    margin-top: 5vh;
+}
+
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotateX(0);
+    }
+}
+
+@keyframes jumpIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

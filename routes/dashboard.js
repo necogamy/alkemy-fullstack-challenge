@@ -2,7 +2,7 @@ const router = require('express').Router();
 const db = require('../db');
 const authorization = require('../middleware/authorization');
 
-router.get('/dashboard', authorization, async (req, res) => {
+router.get('/api/dashboard', authorization, async (req, res) => {
     try {
         const user = await db.query(`
             SELECT *
@@ -10,7 +10,16 @@ router.get('/dashboard', authorization, async (req, res) => {
             WHERE id = $1;
         `, [req.user.id]);
         
-        res.json(user.rows[0].name);
+        const operations = await db.query(`
+            SELECT *
+            FROM operations
+            WHERE user_id = $1;
+        `, [user.rows[0].id]);
+
+        res.json({
+            user: user.rows,
+            operations: operations.rows
+        });
     } catch (err) {
         console.error(err.message);
         res.status(500).json('Server error');

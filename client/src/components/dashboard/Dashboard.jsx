@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import './style.css';
+import Operation from '../operation/Operation';
 
 const Dashboard = ({ setAuth }) => {
     const [ name, setName ] = useState('');
+    const [ operations, setOperations ] = useState([]);
+    const [ balance, setBalance ] = useState(0);
 
-    const getName = async () => {
+    const fetchUserData = async () => {
         try {
-            const response = await fetch('/dashboard', {
+            const response = await fetch('/api/dashboard', {
                 method: 'GET',
                 headers: {
                     token: localStorage.getItem('token.alkemy.challenge.app')
@@ -15,7 +19,8 @@ const Dashboard = ({ setAuth }) => {
 
             const jsonResponse = await response.json();
 
-            setName(jsonResponse);
+            setName(jsonResponse.user[0].name);
+            setOperations(jsonResponse.operations);
         } catch (err) {
             console.error(err.message);
         }
@@ -28,14 +33,20 @@ const Dashboard = ({ setAuth }) => {
     }
 
     useEffect(() => {
-        getName();
+        fetchUserData();
     }, []);
 
     return (
-        <>
+        <div className='dashboard'>
             <h1>Dashboard {name}</h1>
+            <h2>Balance actual: {balance}</h2>
+            <section>
+                {
+                    operations.map(operation => <Operation operation={operation} />)
+                }
+            </section>
             <button onClick={logOut}>Log out</button>
-        </>
+        </div>
     );
 }
 

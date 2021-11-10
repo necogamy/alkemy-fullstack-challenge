@@ -5,7 +5,7 @@ const jwtGenerator = require('../utils/jwtGenerator');
 const validateInfo = require('../middleware/validateInfo');
 const authorization = require('../middleware/authorization');
 
-router.post('/register', validateInfo, async (req, res) => {
+router.post('/api/register', validateInfo, async (req, res) => {
     try {
         const { name, email, password } = req.body;
 
@@ -37,7 +37,7 @@ router.post('/register', validateInfo, async (req, res) => {
     }
 });
 
-router.post('/login', validateInfo, async (req, res) => {
+router.post('/api/login', validateInfo, async (req, res) => {
     try {
         const { email, password } = req.body;
 
@@ -60,7 +60,7 @@ router.post('/login', validateInfo, async (req, res) => {
     }
 });
 
-router.get('/is-authenticated', authorization, async (req, res) => {
+router.get('/api/is-authenticated', authorization, async (req, res) => {
     try {
         res.json('true');
     } catch (err) {

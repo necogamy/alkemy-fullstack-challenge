@@ -1,0 +1,14 @@
+.operation {
+    outline: .1px solid lightgray;
+    border-radius: 5px;
+    padding: 5px 5vw;
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.operation > section {
+    display: flex;
+    gap: 30px;
+}

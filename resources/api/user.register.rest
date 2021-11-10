@@ -1,0 +1,25 @@
+## route for register a user
+POST http://localhost:5000/api/register
+Content-Type: application/json
+
+## email must be unique
+{
+    "name": "nico",
+    "email": "unique@gmail.com",
+    "password": "favorit123"
+}
+
+## example answers
+
+## sucess:
+##
+## {
+##  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiOTBkMjQ3ZTQtMDQ0NC00NzBhLWFkZDUtNjgyNjNhYmI3YzgyIn0sImlhdCI6MTYzNTM3MzY3OSwiZXhwIjoxNjM1Mzc3Mjc5fQ.qZ-qvewvsKkxBxPbw1rWZswQO2S0aELyp1NHjkYVH2A"
+## }
+##
+
+## error:
+##
+##  status: 401
+##  json: "User already exists"
+##

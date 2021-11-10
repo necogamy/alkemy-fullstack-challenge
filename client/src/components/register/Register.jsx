@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import './style.css';
 
-const Login = ({ setAuth }) => {
+const Register = ({ setAuth }) => {
     const [ inputs, setInputs ] = useState({
         email: '',
-        password: ''
+        password: '',
+        name: ''
     });
 
     const onInputChange = e => {
@@ -19,14 +21,12 @@ const Login = ({ setAuth }) => {
         e.preventDefault();
 
         try {
-            const { email, password } = inputs;
+            const { email, password, name } = inputs;
 
-            const response = await fetch('/login', {
+            const response = await fetch('/api/register', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ email, password })
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password, name })
             });
 
             const jsonResponse = await response.json();
@@ -36,44 +36,56 @@ const Login = ({ setAuth }) => {
 
                 setInputs({
                     email: '',
-                    password: ''
+                    password: '',
+                    name: ''
                 });
                 
                 setAuth(true);
-                toast.success('Logged in sucessfully');
+                toast.success('Registered sucessfully');
             } else {
                 setAuth(false);
                 toast.error(jsonResponse);
             }
-        } catch (err) {
+        } catch(err) {
             console.error(err.message);
         }
     }
 
     return (
-        <>
-            <h1>Login</h1>
+        <div className='register'>
+            <h1>Register</h1>
             <form onSubmit={onSubmitForm}>
                 <input 
+                    type='text' 
+                    placeholder='name' 
+                    name='name'
+                    value={inputs.name}
+                    onChange={onInputChange}
+                />
+                <input 
                     type='email' 
-                    name='email' 
                     placeholder='email' 
-                    value={inputs.email} 
-                    onChange={onInputChange} 
+                    name='email' 
+                    value={inputs.email}
+                    onChange={onInputChange}
                 />
                 <input 
                     type='password' 
-                    name='password' 
                     placeholder='password' 
-                    value={inputs.password} 
-                    onChange={onInputChange} 
+                    name='password'
+                    value={inputs.password}
+                    onChange={onInputChange}
                 />
-                <input type='submit' />
+                <input 
+                    type='submit'
+                />
             </form>
-            <Link to='/register'>Sign up</Link>
-        </>
+            <aside>
+                <p>Have an account?</p>
+                <Link to='/login'>Log in</Link>
+            </aside>
+        </div>
     );
 }
 
-
-export default Login;
+export default Register;

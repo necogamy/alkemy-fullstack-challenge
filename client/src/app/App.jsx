@@ -7,11 +7,12 @@ import {
 } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './style.css';
 
 // Components
-import Dashboard from './components/Dashboard';
-import Register from './components/Register';
-import Login from './components/Login';
+import Dashboard from '../components/dashboard/Dashboard';
+import Register from '../components/register/Register';
+import Login from '../components/login/Login';
 
 toast.configure();
 
@@ -24,7 +25,7 @@ const App = () => {
 
   const checkAuth = async () => {
     try {
-      const response = await fetch('/is-authenticated', {
+      const response = await fetch('/api/is-authenticated', {
         method: 'GET',
         headers: {
           token: localStorage.getItem('token.alkemy.challenge.app')
@@ -64,6 +65,9 @@ const App = () => {
             isAuthenticated ? <Dashboard setAuth={setAuth} />
             : <Redirect to='/login' />
           }
+        </Route>
+        <Route exact path='/'>
+          <Redirect to='/login' />
         </Route>
       </Switch>
     </Router>
