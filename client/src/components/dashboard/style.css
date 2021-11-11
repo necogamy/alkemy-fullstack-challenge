@@ -19,6 +19,10 @@
     background-color: rgb(79, 196, 63);
 }
 
+.dashboard > section:nth-child(4) > button:nth-child(2) > a {
+    text-decoration: none;
+}
+
 .dashboard > section:nth-child(4) {
     display: flex;
     gap: 30px;

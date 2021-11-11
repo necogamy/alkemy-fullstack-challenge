@@ -13,6 +13,7 @@ import './style.css';
 import Dashboard from '../components/dashboard/Dashboard';
 import Register from '../components/register/Register';
 import Login from '../components/login/Login';
+import Operations from '../components/operations/Operations';
 
 toast.configure();
 
@@ -63,6 +64,12 @@ const App = () => {
         <Route exact path='/dashboard'>
           {
             isAuthenticated ? <Dashboard setAuth={setAuth} />
+            : <Redirect to='/login' />
+          }
+        </Route>
+        <Route exact path='/operations'>
+          {
+            isAuthenticated ? <Operations />
             : <Redirect to='/login' />
           }
         </Route>

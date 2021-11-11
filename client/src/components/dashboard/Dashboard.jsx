@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import './style.css';
 import Operation from '../operation/Operation';
+import { Link } from 'react-router-dom';
 
 const Dashboard = ({ setAuth }) => {
     const [ name, setName ] = useState('');
@@ -39,8 +40,8 @@ const Dashboard = ({ setAuth }) => {
 
     return (
         <div className='dashboard'>
-            <h1>Dashboard {name}</h1>
-            <h2>Balance actual: {balance}</h2>
+            <h1>Dashboard <span style={{color: 'cyan'}}>{name}</span></h1>
+            <h2>Balance actual: <span style={{color: 'cyan'}}>{balance}</span></h2>
             <section>
                 {
                     operations.map(operation => <Operation operation={operation} />)
@@ -48,7 +49,7 @@ const Dashboard = ({ setAuth }) => {
             </section>
             <section>
                 <button onClick={logOut}>Log out</button>
-                <button>Operations</button>
+                <button><Link to='/operations'>Operations</Link></button>
             </section>
         </div>
     );
