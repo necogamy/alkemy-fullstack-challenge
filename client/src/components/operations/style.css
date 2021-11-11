@@ -36,3 +36,10 @@
 .operations > button > a {
     text-decoration: none;
 }
+
+.operations input[type='submit'] {
+    background-color: rgba(46, 196, 59, 0.8);
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}

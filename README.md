@@ -1,5 +1,5 @@
 # **Alkemy FullStack app challenge**
-## [You can see this project live here](https://indevelopment.com)
+## [You can see this project live here](https://alkemy-fullstack-challenge.herokuapp.com/)
 
 <br />
 
@@ -13,7 +13,7 @@
 
 **OR**
 
-* You can run the project locally with *npm run devstart* that make the work for you
+* You can run the project locally with *npm run devstart* that makes the work for you
 
 <br />
 

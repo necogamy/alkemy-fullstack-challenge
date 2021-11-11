@@ -21,7 +21,7 @@ const Operation = ({operation}) => {
             {
                 expand ? (
                     <section>
-                        <p>{operation.category ? operation.category : 'No category'}</p>
+                        {/EGRESO/.test(operation.type) && <p>{operation.category ? operation.category : 'No category'}</p>}
                         <p>{operation.concept ? operation.concept : 'No concept'}</p>
                     </section>
                 )
