@@ -12,3 +12,16 @@
     display: flex;
     gap: 30px;
 }
+
+.expand-button {
+    border: .1px solid lightgray;
+    border-radius: 3px;
+    background-color: rgba(10, 10, 10, 0.45);
+    cursor: pointer;
+    height: 50px;
+}
+
+.expand-arrow {
+    width: 30px;
+    filter: invert(1);
+}

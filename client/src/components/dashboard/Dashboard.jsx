@@ -19,6 +19,7 @@ const Dashboard = ({ setAuth }) => {
 
             const jsonResponse = await response.json();
 
+            setBalance(jsonResponse.balance);
             setName(jsonResponse.user[0].name);
             setOperations(jsonResponse.operations);
         } catch (err) {
@@ -45,7 +46,10 @@ const Dashboard = ({ setAuth }) => {
                     operations.map(operation => <Operation operation={operation} />)
                 }
             </section>
-            <button onClick={logOut}>Log out</button>
+            <section>
+                <button onClick={logOut}>Log out</button>
+                <button>Operations</button>
+            </section>
         </div>
     );
 }

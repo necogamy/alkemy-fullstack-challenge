@@ -13,12 +13,20 @@ router.get('/api/dashboard', authorization, async (req, res) => {
         const operations = await db.query(`
             SELECT *
             FROM operations
+            WHERE user_id = $1
+            ORDER BY date;
+        `, [user.rows[0].id]);
+
+        const balance = await db.query(`
+            SELECT SUM(amount)
+            FROM operations
             WHERE user_id = $1;
         `, [user.rows[0].id]);
 
         res.json({
             user: user.rows,
-            operations: operations.rows
+            operations: operations.rows,
+            balance: balance.rows[0].sum
         });
     } catch (err) {
         console.error(err.message);

@@ -5,3 +5,21 @@
     align-items: center;
     animation: jumpIn 1s;
 }
+
+.dashboard > section:nth-child(4) > button {
+    cursor: pointer;
+    background-color: rgba(156, 196, 46, 0.8);
+    color: black;
+    border-radius: 3px;
+    padding: 6px 20px;
+    border: 1px solid black;
+}
+
+.dashboard > section:nth-child(4) > button:nth-child(2) {
+    background-color: rgb(79, 196, 63);
+}
+
+.dashboard > section:nth-child(4) {
+    display: flex;
+    gap: 30px;
+}

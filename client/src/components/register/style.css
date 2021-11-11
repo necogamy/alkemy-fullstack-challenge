@@ -45,8 +45,9 @@
 
 .register > aside > :nth-child(2) {
     background-color: rgba(28, 248, 164, 0.8);
-    color: white;
+    color: black;
     border-radius: 3px;
     padding: 6px 20px;
+    border: 1px solid black;
     text-decoration: none;
 }
