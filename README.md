@@ -10,6 +10,12 @@
 <br />
 
 * Execute *npm install* in the root folder and in the client folder
-<br />
+
 **OR**
+
 * You can run the project locally with *npm run devstart* that make the work for you
+
+<br />
+
+# **Overview**
+![screenshot](./screenshot.png)
