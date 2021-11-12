@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './style.css';
 import assets from '../../util/assets';
 
-const Operation = ({ operation, editMode, editModeActivate }) => {
+const Operation = ({ operation, editMode, editModeActivate, setActualOperation }) => {
     const [ expand, setExpand ] = useState(false);
 
     const ico = operation.category === 'Entretenimiento' ? assets.ico.ticket
@@ -12,14 +12,34 @@ const Operation = ({ operation, editMode, editModeActivate }) => {
     : operation.category === 'Otro' ? assets.ico.random
     : null;
 
+    let amount = operation.amount;
+    amount = amount.split('');
+    if (amount[0] === '(' && amount[amount.length - 1] === ')') {
+        amount.shift();
+        amount.pop();
+        amount.unshift('-');
+    }
+
     return (
         <article className='operation'>
             <section>
                 <h3>{operation.type}</h3>
-                {editMode && <img onClick={editModeActivate} style={{width: 30, cursor: 'pointer'}} src={assets.ico.edit} alt='edit mode' />}
+                {
+                    editMode 
+                        && 
+                    <img 
+                        onClick={() => {
+                            editModeActivate();
+                            setActualOperation(operation.id);
+                        }}
+                        style={{width: 30, cursor: 'pointer'}} 
+                        src={assets.ico.edit} 
+                        alt='edit mode'
+                    />
+                }
             </section>
             <section>
-                <p>{operation.amount}</p>
+                <p>{ amount }</p>
                 <p>{operation.date.slice(0, 10)}</p>
                 <button className='expand-button' onClick={() => setExpand(prevState => !prevState)}>
                     {

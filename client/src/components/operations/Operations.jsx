@@ -9,8 +9,9 @@ const Operations = () => {
     const [ operations, setOperations ] = useState([]);
     const [ filter, setFilter ] = useState('INGRESO');
     const [ categoryFilter, setCategoryFilter ] = useState('All');
-    const [ operationAdded, setOperationAdded ] = useState(false);
+    const [ operationsUpdate, setOperationsUpdate ] = useState(false);
     const [ editMode, setEditMode ] = useState(false);
+    const [ actualOperation, setActualOperation ] = useState(null);
 
     const [ formData, setFormData ] = useState({
         concept: '',
@@ -19,6 +20,7 @@ const Operations = () => {
         type: 'INGRESO',
         category: 'Otro'
     });
+
 
     const onInputChange = e => {
         setFormData(prevState => ({
@@ -53,7 +55,7 @@ const Operations = () => {
             });
     
             const jsonResponse = await request.json();
-            setOperationAdded(true);
+            setOperationsUpdate(true);
             toast.success(jsonResponse);
             setFormData({
                 concept: '',
@@ -95,10 +97,51 @@ const Operations = () => {
         window.scrollTo(0, 0);
     }
 
+    const deleteOperation = async () => {
+        try {
+            const request = await fetch(`/api/operations/${actualOperation}`, {
+                method: 'DELETE',
+                headers: {
+                    token: localStorage.getItem('token.alkemy.challenge.app')
+                }
+            });
+    
+            const jsonResponse = await request.json();
+            setOperationsUpdate(true);
+            toast.success(jsonResponse);
+        } catch(err) {
+            console.log(err);
+            toast.error(err);
+        }
+    }
+
+    const editOperation = async operation => {
+        try {
+            const request = await fetch(`/api/operations/${actualOperation}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    token: localStorage.getItem('token.alkemy.challenge.app')
+                },
+                body: JSON.stringify(operation)
+            });
+    
+            const jsonResponse = await request.json();
+            setOperationsUpdate(true);
+            editModeActivate();
+            toast.success(jsonResponse);
+        } catch(err) {
+            console.log(err);
+            toast.error(err);
+        }
+    }
+
+
     useEffect(() => {
         fetchData();
-        return setOperationAdded(false);
-    }, [ operationAdded ]);
+        return setOperationsUpdate(false);
+    }, [ operationsUpdate ]);
+
 
     return (
         <div className='operations'>
@@ -178,12 +221,21 @@ const Operations = () => {
                         }
                         return operation.type === filter;
                     }).map(operation => 
-                        <Operation editModeActivate={editModeActivate} editMode={true} operation={operation} />
+                        <Operation setActualOperation={setActualOperation} editModeActivate={editModeActivate} editMode={true} operation={operation} />
                     )
                 }
             </section>
             <button><Link to='/dashboard'>Back to dashboard</Link></button>
-            {editMode && <EditMode editModeActivate={editModeActivate} />}
+            {
+                editMode 
+                    && 
+                <EditMode 
+                    operation={actualOperation} 
+                    editOperation={editOperation} 
+                    deleteOperation={deleteOperation} 
+                    editModeActivate={editModeActivate} 
+                />
+            }
         </div>
     )
 }

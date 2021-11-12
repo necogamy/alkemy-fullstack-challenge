@@ -24,6 +24,24 @@ router.get('/api/operations', authorization, userInfo, async (req, res) => {
     }
 });
 
+router.get('/api/operations/:id', authorization, userInfo, async (req, res) => {
+    try {
+        const operation = await db.query(`
+            SELECT *
+            FROM operations
+            WHERE user_id = $1 AND id = $2;
+        `, [req.user.id, req.params.id]);
+
+        res.json({
+            user: req.user,
+            operation: operation.rows[0]
+        });
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).json('Server error');
+    }
+});
+
 router.post('/api/operations', authorization, userInfo, async (req, res) => {
     try {
         const { type, date } = req.body;
@@ -91,7 +109,7 @@ router.put('/api/operations/:id', authorization, userInfo, async (req, res) => {
             WHERE id = $1 AND user_id = $2;
         `, [id, req.user.id, amount]);
 
-        if (req.params && req.params.category) {
+        if (req.body && req.body.category) {
             const { category } = req.body;
 
             await db.query(`
