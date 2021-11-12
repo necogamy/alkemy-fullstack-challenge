@@ -11,7 +11,7 @@ router.get('/api/operations', authorization, userInfo, async (req, res) => {
             SELECT *
             FROM operations
             WHERE user_id = $1
-            ORDER BY date desc;
+            ORDER BY date;
         `, [req.user.id]);
 
         res.json({

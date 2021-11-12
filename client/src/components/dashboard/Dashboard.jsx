@@ -20,7 +20,7 @@ const Dashboard = ({ setAuth }) => {
 
             const jsonResponse = await response.json();
 
-            setBalance(jsonResponse.balance);
+            setBalance(jsonResponse.balance || '$0');
             setName(jsonResponse.user.name);
             setOperations(jsonResponse.operations);
         } catch (err) {

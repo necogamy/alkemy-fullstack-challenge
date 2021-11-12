@@ -1,0 +1,39 @@
+.edit-mode {
+    width: 100vw;
+    height: 100vh;
+    z-index: 100;
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.95);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    color: azure;
+    padding: 20px;
+}
+
+.edit-mode > img {
+    width: 30px;
+    cursor: pointer;
+}
+
+.edit-mode .submit-button {
+    background-color: rgba(170, 26, 26, 0.897);
+}
+
+.edit-mode .submit-button[value='Edit operation'] {
+    background-color: rgb(160, 160, 36);
+    margin-bottom: 15vh;
+}
+
+.edit-mode form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.edit-mode img[alt='quit'] {
+    background-color: rgb(110, 108, 108, 0.9);
+    margin-top: 10px;
+    border-radius: 50%;
+    padding: 5px;
+}

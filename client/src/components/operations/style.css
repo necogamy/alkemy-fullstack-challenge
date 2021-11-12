@@ -37,7 +37,7 @@
     text-decoration: none;
 }
 
-.operations input[type='submit'] {
+.operations .submit-button {
     background-color: rgba(46, 196, 59, 0.8);
     padding: 10px;
     cursor: pointer;

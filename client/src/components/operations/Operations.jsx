@@ -3,17 +3,28 @@ import { Link } from 'react-router-dom';
 import './style.css';
 import Operation from '../operation/Operation';
 import { toast } from 'react-toastify';
+import EditMode from '../editMode/EditMode';
 
 const Operations = () => {
     const [ operations, setOperations ] = useState([]);
     const [ filter, setFilter ] = useState('INGRESO');
-    const [ selectTypeInput,  setSelectTypeInput ] = useState('INGRESO');
     const [ categoryFilter, setCategoryFilter ] = useState('All');
     const [ operationAdded, setOperationAdded ] = useState(false);
+    const [ editMode, setEditMode ] = useState(false);
 
+    const [ formData, setFormData ] = useState({
+        concept: '',
+        amount: 0,
+        date: '',
+        type: 'INGRESO',
+        category: 'Otro'
+    });
 
-    const onSelectFormChange = e => {
-        setSelectTypeInput(e.target.value);
+    const onInputChange = e => {
+        setFormData(prevState => ({
+            ...prevState,
+            [e.target.name]: e.target.value
+        }));
     }
 
     const onSelectChange = e => {
@@ -25,12 +36,12 @@ const Operations = () => {
 
         try {
             const prepareRequest = {
-                concept: e.target.children[1].value || null,
-                amount: Number(e.target.children[2].value),
-                date: e.target.children[3].value,
-                type: e.target.children[4].value
+                concept: formData.concept,
+                amount: Number(formData.amount),
+                date: formData.date,
+                type: formData.type
             }
-            prepareRequest.category = !e.target.children[5].disabled && e.target.children[5].value;
+            prepareRequest.category = !e.target.children[5].disabled && formData.category;
     
             const request = await fetch('/api/operations', {
                 method: 'POST',
@@ -44,6 +55,13 @@ const Operations = () => {
             const jsonResponse = await request.json();
             setOperationAdded(true);
             toast.success(jsonResponse);
+            setFormData({
+                concept: '',
+                amount: 0,
+                date: '',
+                type: 'INGRESO',
+                category: 'Otro'
+            });
         } catch (err) {
             console.log(err);
             toast.error(err);
@@ -67,6 +85,16 @@ const Operations = () => {
         }
     }
 
+    const editModeActivate = () => {
+        setEditMode(prevState => !prevState);
+        const documentBody = document.querySelector('body');
+
+        if (documentBody.style.overflow === 'hidden') documentBody.style.overflow = 'scroll'
+        else documentBody.style.overflow = 'hidden';
+
+        window.scrollTo(0, 0);
+    }
+
     useEffect(() => {
         fetchData();
         return setOperationAdded(false);
@@ -76,21 +104,43 @@ const Operations = () => {
         <div className='operations'>
             <form onSubmit={onFormSubmit}>
                 <h2>Create an operation</h2>
-                <textarea style={{resize: 'none'}} maxLength='256' placeholder='Concept' ></textarea>
-                <input type='number' placeholder='Amount' min='0' max='999999999999999' required />
-                <input type='date' required />
-                <select name="select" onChange={onSelectFormChange}>
+                
+                <textarea 
+                    onChange={onInputChange}
+                    name='concept' 
+                    style={{resize: 'none'}} 
+                    maxLength='50'
+                    value={formData.concept} 
+                    placeholder='Concept' 
+                />
+                
+                <input 
+                    onChange={onInputChange} 
+                    name='amount' 
+                    type='number' 
+                    placeholder='Amount' 
+                    min='0' 
+                    max='999999999999999' 
+                    value={formData.amount} 
+                    required 
+                />
+                
+                <input onChange={onInputChange} name='date' type='date' value={formData.date} required />
+
+                <select value={formData.type} name="type" onChange={onInputChange}>
                     <option value="INGRESO" selected>Ingreso</option>
                     <option value="EGRESO">Egreso</option>
                 </select>
-                <select name="select-two" disabled={selectTypeInput === 'INGRESO' ? true : false}>    
+
+                <select name="category" onChange={onInputChange} value={formData.category} disabled={formData.type === 'INGRESO' ? true : false}>    
                     <option value="Entretenimiento">Entretenimiento</option>
                     <option value="Comida">Comida</option>
                     <option value="Transporte">Transporte</option>
                     <option value="Ocio">Ocio</option>
                     <option value="Otro" selected>Otro</option>
                 </select>
-                <input type='submit' value='Add operation' />
+                
+                <input className='submit-button' type='submit' value='Add operation' />
             </form>
             <section>
                 <button 
@@ -108,7 +158,7 @@ const Operations = () => {
                 {
                     filter === 'EGRESO'
                         &&
-                    <select name="select-filter" onChange={onSelectChange}>
+                    <select value={categoryFilter} onChange={onSelectChange}>
                         <option value="All" selected>All</option>
                         <option value="Entretenimiento">Entretenimiento</option>
                         <option value="Comida">Comida</option>
@@ -128,11 +178,12 @@ const Operations = () => {
                         }
                         return operation.type === filter;
                     }).map(operation => 
-                        <Operation operation={operation} />
+                        <Operation editModeActivate={editModeActivate} editMode={true} operation={operation} />
                     )
                 }
             </section>
             <button><Link to='/dashboard'>Back to dashboard</Link></button>
+            {editMode && <EditMode editModeActivate={editModeActivate} />}
         </div>
     )
 }
