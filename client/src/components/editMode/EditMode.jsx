@@ -9,7 +9,8 @@ const EditMode = ({ editModeActivate, deleteOperation, editOperation, operation 
         amount: 0,
         category: '',
         type: '',
-        date: ''
+        date: '',
+        loading: true
     });
 
     const onInputChange = e => {
@@ -67,6 +68,11 @@ const EditMode = ({ editModeActivate, deleteOperation, editOperation, operation 
     return (
         <div className='edit-mode'>
             <h2>Edit mode</h2>
+            {
+                editInfo.loading ? <p>Loading</p>
+                
+                    :
+
             <form onSubmit={onFormSubmit}>
                 <textarea 
                     onChange={onInputChange}
@@ -102,7 +108,8 @@ const EditMode = ({ editModeActivate, deleteOperation, editOperation, operation 
 
                 <input className='submit-button' type='submit' value='Edit operation' />
             </form>
-            <button onClick={deleteOperation} className='submit-button'>Delete operation</button>
+            }
+            <button style={{visibility: editInfo.loading ? 'hidden' : 'visible'}} onClick={deleteOperation} className='submit-button'>Delete operation</button>
             <img onClick={editModeActivate} src={assets.ico.exit} alt='quit' />
         </div>
     )
