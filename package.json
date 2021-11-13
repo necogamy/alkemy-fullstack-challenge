@@ -9,8 +9,8 @@
   },
   "scripts": {
     "start": "node server.js",
-    "devstart": "npm install && npm run heroku-postbuild && nodemon server.js",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "devstart": "npm install && npm run heroku-postbuild && nodemon server.js"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
