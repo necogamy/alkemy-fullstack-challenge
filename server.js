@@ -20,8 +20,9 @@ server.use(dashboardRouter);
 server.use(operationsRouter);
 
 // redirect to client files
-server.get('*', (req, res) =>{
-  res.sendFile(path.join(__dirname, 'client/build/index.html'));
+server.get('*', (req, res) => {
+  res.redirect('/');
+  // res.sendFile(path.join(__dirname, 'client/build/index.html'));
 });
 
 server.listen(PORT, () => {
