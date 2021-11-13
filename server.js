@@ -2,8 +2,10 @@ const express = require('express');
 const server = express();
 const path = require('path');
 const PORT = process.env.PORT || 5000;
+const cors = require('cors');
 
 server.use(express.json());
+server.use(cors());
 
 // serve client files
 server.use(express.static(path.join(__dirname, 'client/build')));
