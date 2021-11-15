@@ -49,3 +49,16 @@
 .login {
     animation: jumpIn 1s;
 }
+
+
+@media screen and (max-width: 900px) {
+    .login > form {
+        width: 50vw;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .login > form {
+        width: 70vw;
+    }
+}

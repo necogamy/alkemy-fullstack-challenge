@@ -175,7 +175,7 @@ const Operations = () => {
                     <option value="EGRESO">Egreso</option>
                 </select>
 
-                <select name="category" onChange={onInputChange} value={formData.category} disabled={formData.type === 'INGRESO' ? true : false}>    
+                <select name="category" onChange={onInputChange} value={formData.category} disabled={formData.type === 'INGRESO' ? true : false} style={{cursor: formData.type === 'INGRESO' ? 'not-allowed' : 'pointer'}}>    
                     <option value="Entretenimiento">Entretenimiento</option>
                     <option value="Comida">Comida</option>
                     <option value="Transporte">Transporte</option>
@@ -192,24 +192,24 @@ const Operations = () => {
                 >
                     Sort by Ingresos
                 </button>
-                <button 
-                    style={{backgroundColor: filter === 'EGRESO' && 'gray'}} 
-                    onClick={() => setFilter('EGRESO')}
-                >
-                    Sort by Egresos
-                </button>
-                {
-                    filter === 'EGRESO'
-                        &&
-                    <select value={categoryFilter} onChange={onSelectChange}>
-                        <option value="All" selected>All</option>
-                        <option value="Entretenimiento">Entretenimiento</option>
-                        <option value="Comida">Comida</option>
-                        <option value="Transporte">Transporte</option>
-                        <option value="Ocio">Ocio</option>
-                        <option value="Otro">Otro</option>
-                    </select>
-                }
+                <section className='sort-by-egresos'>
+                    <button 
+                        style={{backgroundColor: filter === 'EGRESO' && 'gray'}} 
+                        onClick={() => setFilter('EGRESO')}
+                    >
+                        Sort by Egresos
+                    </button>
+                    {
+                        <select className='filter-operations' value={categoryFilter} onChange={onSelectChange} disabled={filter === 'EGRESO' ? false : true}>
+                            <option value="All" selected>All</option>
+                            <option value="Entretenimiento">Entretenimiento</option>
+                            <option value="Comida">Comida</option>
+                            <option value="Transporte">Transporte</option>
+                            <option value="Ocio">Ocio</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    }
+                </section>
             </section>
             <section>
                 {

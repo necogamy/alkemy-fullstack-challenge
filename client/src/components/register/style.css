@@ -51,3 +51,15 @@
     border: 1px solid black;
     text-decoration: none;
 }
+
+@media screen and (max-width: 900px) {
+    .register > form {
+        width: 50vw;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .register > form {
+        width: 70vw;
+    }
+}

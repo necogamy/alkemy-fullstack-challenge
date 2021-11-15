@@ -61,21 +61,27 @@ const Register = ({ setAuth }) => {
                     name='name'
                     value={inputs.name}
                     onChange={onInputChange}
+		    required
                 />
+
                 <input 
                     type='email' 
                     placeholder='email' 
                     name='email' 
                     value={inputs.email}
                     onChange={onInputChange}
+		    required
                 />
+
                 <input 
                     type='password' 
                     placeholder='password' 
                     name='password'
                     value={inputs.password}
                     onChange={onInputChange}
+		    required
                 />
+
                 <input 
                     type='submit'
                 />
@@ -84,6 +90,7 @@ const Register = ({ setAuth }) => {
                 <p>Have an account?</p>
                 <Link to='/login'>Log in</Link>
             </aside>
+            <img className='jwt' src='http://jwt.io/img/logo-asset.svg' alt='powered by json web token' />
         </div>
     );
 }

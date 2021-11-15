@@ -62,20 +62,25 @@ const Login = ({ setAuth }) => {
                     value={inputs.email} 
                     onChange={onInputChange}
                     className='input'
+		    required
                 />
+
                 <input 
                     type='password' 
                     name='password' 
                     placeholder='password' 
                     value={inputs.password} 
                     onChange={onInputChange}
+		    required
                 />
+
                 <input type='submit' />
             </form>
             <aside>
                 <p>New?</p>
                 <Link to='/register'>Sign up</Link>
             </aside>
+            <img className='jwt' src='http://jwt.io/img/logo-asset.svg' alt='powered by json web token' />
         </div>
     );
 }
