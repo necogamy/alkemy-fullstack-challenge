@@ -4,10 +4,11 @@ require('dotenv').config();
 const devConfig = `postgresql://${process.env.PG_USER}:${process.env.PG_PASSWORD}@${process.env.PG_HOST}:${process.env.PG_PORT}/${process.env.PG_DATABASE}`;
 const proConfig = process.env.DATABASE_URL;
 
-const db = new Pool({
+const config = {
     connectionString: process.env.NODE_ENV === 'production' ? proConfig : devConfig
-});
+}
+if (process.env.NODE_ENV === 'production') config.ssl = { rejectUnauthorized: false };
 
-if (process.env.NODE_ENV === 'production') db.ssl = { rejectUnauthorized: false };
+const db = new Pool(config);
 
 module.exports = db;

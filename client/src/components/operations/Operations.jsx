@@ -87,14 +87,19 @@ const Operations = () => {
         }
     }
 
-    const editModeActivate = () => {
-        setEditMode(prevState => !prevState);
-        const documentBody = document.querySelector('body');
+    const documentBody = document.querySelector('body');
+    const enableEditMode = () => {
+        setEditMode(true);
 
-        if (documentBody.style.overflow === 'hidden') documentBody.style.overflow = 'scroll'
-        else documentBody.style.overflow = 'hidden';
+        documentBody.style.overflow = 'hidden';
 
         window.scrollTo(0, 0);
+    }
+    const disableEditMode = () => {
+        setEditMode(false);
+        const documentBody = document.querySelector('body');
+
+        documentBody.style.overflow = 'scroll';
     }
 
     const deleteOperation = async () => {
@@ -108,6 +113,7 @@ const Operations = () => {
     
             const jsonResponse = await request.json();
             setOperationsUpdate(true);
+            disableEditMode();
             toast.success(jsonResponse);
         } catch(err) {
             console.log(err);
@@ -128,7 +134,7 @@ const Operations = () => {
     
             const jsonResponse = await request.json();
             setOperationsUpdate(true);
-            editModeActivate();
+            disableEditMode();
             toast.success(jsonResponse);
         } catch(err) {
             console.log(err);
@@ -171,7 +177,7 @@ const Operations = () => {
                 <input onChange={onInputChange} name='date' type='date' value={formData.date} required />
 
                 <select value={formData.type} name="type" onChange={onInputChange}>
-                    <option value="INGRESO" selected>Ingreso</option>
+                    <option value="INGRESO">Ingreso</option>
                     <option value="EGRESO">Egreso</option>
                 </select>
 
@@ -180,7 +186,7 @@ const Operations = () => {
                     <option value="Comida">Comida</option>
                     <option value="Transporte">Transporte</option>
                     <option value="Ocio">Ocio</option>
-                    <option value="Otro" selected>Otro</option>
+                    <option value="Otro">Otro</option>
                 </select>
                 
                 <input className='submit-button' type='submit' value='Add operation' />
@@ -201,7 +207,7 @@ const Operations = () => {
                     </button>
                     {
                         <select className='filter-operations' value={categoryFilter} onChange={onSelectChange} disabled={filter === 'EGRESO' ? false : true}>
-                            <option value="All" selected>All</option>
+                            <option value="All">All</option>
                             <option value="Entretenimiento">Entretenimiento</option>
                             <option value="Comida">Comida</option>
                             <option value="Transporte">Transporte</option>
@@ -221,7 +227,13 @@ const Operations = () => {
                         }
                         return operation.type === filter;
                     }).map(operation => 
-                        <Operation setActualOperation={setActualOperation} editModeActivate={editModeActivate} editMode={true} operation={operation} />
+                        <Operation 
+                            setActualOperation={setActualOperation} 
+                            enableEditMode={enableEditMode}
+                            operationsRender={true}
+                            operation={operation}
+                            key={operation.id}
+                        />
                     )
                 }
             </section>
@@ -232,8 +244,8 @@ const Operations = () => {
                 <EditMode 
                     operation={actualOperation} 
                     editOperation={editOperation} 
-                    deleteOperation={deleteOperation} 
-                    editModeActivate={editModeActivate} 
+                    deleteOperation={deleteOperation}
+                    disableEditMode={disableEditMode}
                 />
             }
         </div>

@@ -20,6 +20,13 @@ const Dashboard = ({ setAuth }) => {
 
             const jsonResponse = await response.json();
 
+            jsonResponse.balance = jsonResponse.balance.split('');
+            if (jsonResponse.balance[0] === '(' && jsonResponse.balance[jsonResponse.balance.length - 1] === ')') {
+                jsonResponse.balance.pop();
+                jsonResponse.balance.shift();
+                jsonResponse.balance.unshift('-');
+            }
+
             setBalance(jsonResponse.balance || '$0');
             setName(jsonResponse.user.name);
             setOperations(jsonResponse.operations);
@@ -44,7 +51,7 @@ const Dashboard = ({ setAuth }) => {
             <h2>Balance actual: <span style={{color: 'cyan'}}>{balance}</span></h2>
             <section>
                 {
-                    operations.map(operation => <Operation operation={operation} />)
+                    operations.map(operation => <Operation key={operation.id} operation={operation} />)
                 }
             </section>
             <section>

@@ -3,7 +3,7 @@ import './style.css';
 import assets from '../../util/assets';
 import { moneyToNumber } from '../../util/moneyToNumber';
 
-const EditMode = ({ editModeActivate, deleteOperation, editOperation, operation }) => {
+const EditMode = ({ disableEditMode, deleteOperation, editOperation, operation }) => {
     const [ editInfo, setEditInfo ] = useState({
         concept: '',
         amount: 0,
@@ -110,7 +110,7 @@ const EditMode = ({ editModeActivate, deleteOperation, editOperation, operation 
             </form>
             }
             <button style={{visibility: editInfo.loading ? 'hidden' : 'visible'}} onClick={deleteOperation} className='submit-button'>Delete operation</button>
-            <img onClick={editModeActivate} src={assets.ico.exit} alt='quit' />
+            <img onClick={disableEditMode} src={assets.ico.exit} alt='quit' />
         </div>
     )
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './style.css';
 import assets from '../../util/assets';
 
-const Operation = ({ operation, editMode, editModeActivate, setActualOperation }) => {
+const Operation = ({ operation, operationsRender, enableEditMode, setActualOperation }) => {
     const [ expand, setExpand ] = useState(false);
 
     const ico = operation.category === 'Entretenimiento' ? assets.ico.ticket
@@ -25,11 +25,11 @@ const Operation = ({ operation, editMode, editModeActivate, setActualOperation }
             <section>
                 <h3>{operation.type}</h3>
                 {
-                    editMode 
+                    operationsRender 
                         && 
                     <img 
                         onClick={() => {
-                            editModeActivate();
+                            enableEditMode();
                             setActualOperation(operation.id);
                         }}
                         style={{width: 30, cursor: 'pointer'}} 
@@ -39,7 +39,7 @@ const Operation = ({ operation, editMode, editModeActivate, setActualOperation }
                 }
             </section>
             <section>
-                <p>{ amount }</p>
+                <p>{amount}</p>
                 <p>{operation.date.slice(0, 10)}</p>
                 <button className='expand-button' onClick={() => setExpand(prevState => !prevState)}>
                     {
